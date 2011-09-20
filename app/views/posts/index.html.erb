@@ -1,0 +1,34 @@
+<h1>Listing posts</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Content</th>
+    <th>Tags</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @posts.each do |post| %>
+  <tr>
+    <td><%= post.name %></td>
+    <td><%= post.content %></td>
+    <td><%= post.tag_list %></td>
+    <td><%= link_to 'Show', post %></td>
+    <% if can? :manage, :all %>
+      <td><%= link_to 'Edit', edit_post_path(post) %></td>
+      <td><%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+  <%= link_to tag.name, { :controller => :tags, :action=> :tag , :id => tag.name }, :class => css_class %>
+<% end %>
+<br />
+<% if can? :manage, :all %>
+  <%= link_to 'New Post', new_post_path %>
+<% end %>
+
